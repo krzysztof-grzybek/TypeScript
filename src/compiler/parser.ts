@@ -1083,32 +1083,39 @@ namespace ts {
             return currentToken;
         }
 
+        function processNextToken(token: SyntaxKind) {
+            if (typeof (<any>ts).onNextToken === 'function') {
+                (<any>ts).onNextToken(scanner, token);
+            }
+            return token;
+        }
+
         function nextToken(): SyntaxKind {
-            return currentToken = scanner.scan();
+            return processNextToken(currentToken = scanner.scan());
         }
 
         function reScanGreaterToken(): SyntaxKind {
-            return currentToken = scanner.reScanGreaterToken();
+            return processNextToken(currentToken = scanner.reScanGreaterToken());
         }
 
         function reScanSlashToken(): SyntaxKind {
-            return currentToken = scanner.reScanSlashToken();
+            return processNextToken(currentToken = scanner.reScanSlashToken());
         }
 
         function reScanTemplateToken(): SyntaxKind {
-            return currentToken = scanner.reScanTemplateToken();
+            return processNextToken(currentToken = scanner.reScanTemplateToken());
         }
 
         function scanJsxIdentifier(): SyntaxKind {
-            return currentToken = scanner.scanJsxIdentifier();
+            return processNextToken(currentToken = scanner.scanJsxIdentifier());
         }
 
         function scanJsxText(): SyntaxKind {
-            return currentToken = scanner.scanJsxToken();
+            return processNextToken(currentToken = scanner.scanJsxToken());
         }
 
         function scanJsxAttributeValue(): SyntaxKind {
-            return currentToken = scanner.scanJsxAttributeValue();
+            return processNextToken(currentToken = scanner.scanJsxAttributeValue());
         }
 
         function speculationHelper<T>(callback: () => T, isLookAhead: boolean): T {
